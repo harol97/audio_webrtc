@@ -1,0 +1,86 @@
+{% extends "base.html" %} {% block custom_style %}
+<link rel="stylesheet" href="/static/css/index.css?v=1.0.0" />
+{% endblock %} {% block custom_body %}
+
+<main class="main">
+  <div class="background-inx main__background"></div>
+  <section class="main__section">
+    <h1 class="main__section__title">
+      Learn English with Artificial Intelligence
+    </h1>
+    <p class="main__section__p">
+      Master Speaking, Listening, and Reading at your own pace. INIX guides,
+      evaluates, and motivates you to improve every day.
+    </p>
+    <div class="main__section__button__container">
+      <a href="/tester" class="base-button">Start Now</a>
+      <a href="/tutorial" class="base-white-button">View Tutorial</a>
+    </div>
+  </section>
+</main>
+<section class="section__how_works">
+  <h2 class="section__how_works__title">How INIXS Works</h2>
+  <div class="section__how_works__div">
+    <section class="section__how_works__main">
+      <div class="section__how_works__main__alternatives">
+        <div class="section__how_works__main__alternatives__title_container">
+          <img src="/static/img/index/microphone.png" width="90" height="90" />
+          <h3>Speaking</h3>
+        </div>
+        <ul>
+          <li>Read sentences from stories</li>
+          <li>The AI analyzes your pronunciation</li>
+          <li>You receive a grade for each line</li>
+        </ul>
+      </div>
+      <div class="section__how_works__main__alternatives">
+        <div class="section__how_works__main__alternatives__title_container">
+          <img src="/static/img/index/audio.png" width="90" height="90" />
+          <h3>Listening</h3>
+        </div>
+        <ul>
+          <li>Listen to a sentence pronounced by the AI</li>
+          <li>Repeat it and receive your evaluation</li>
+        </ul>
+      </div>
+      <div class="section__how_works__main__alternatives">
+        <div class="section__how_works__main__alternatives__title_container">
+          <img src="/static/img/index/book.png" width="90" height="90" />
+          <h3>Reading Comprehension</h3>
+        </div>
+        <ul>
+          <li>Read a paragraph, it gets hidden</li>
+          <li>Paraphrase what you understood</li>
+          <li>The AI grades your reading comprehension</li>
+        </ul>
+      </div>
+    </section>
+    <section class="tutorial__container">
+      <iframe
+        class="tutorial"
+        width="100%"
+        height="325"
+        src="https://www.youtube.com/embed/KNZhbG6F1do?si=7IRoGax37C6zPKkG"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+      <p>
+        In just 2 minutes, we'll show you how to master INIXS and boost your
+        English.
+      </p>
+    </section>
+  </div>
+</section>
+<footer class="footer">
+  <h3 class="footer__title">Start improving your English today!</h3>
+  <p class="footer__description">Fast, fun, and personalized with AI</p>
+  <div class="footer__button__container">
+    <a href="/tester" class="base-button">Start Now</a>
+    <a href="/contact" class="base-white-button">Contact Us</a>
+  </div>
+</footer>
+
+{% endblock %}

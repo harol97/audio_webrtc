@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block custom_style %}
+<link rel="stylesheet" href="/static/css/tutorial.css?v=1.0.0" />
+{% endblock %} {% block custom_body %}
+
+<div class="parent">
+  <iframe
+    class="tutorial"
+    width="100%"
+    height="500"
+    src="https://www.youtube.com/embed/KNZhbG6F1do?si=7IRoGax37C6zPKkG"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen
+  ></iframe>
+
+  
+  <div class="container">
+    <h1 class="container__title">Start improving your English today!</h1>
+    <p class="container__subtitle">Fast, fun, and personalized with AI.</p>
+    <div class="container__buttons">
+      <a href="/tester" class="base-button">Start Now</a>
+      <a href="/contact" class="base-white-button">Contact Us</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

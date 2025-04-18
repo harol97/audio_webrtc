@@ -1,0 +1,28 @@
+{% block custom_style %}
+<link rel="stylesheet" href="/static/css/contact.css?v=1.0.0" />
+
+{% endblock %} {% extends "base.html" %} {% block custom_body %}
+<form class="form" method="post" action="/contact">
+  <input class="base-text-input" placeholder="Nombres" required name="name" />
+  <input
+    class="base-text-input"
+    placeholder="Apellidos"
+    required
+    name="lastname"
+  />
+  <input
+    required
+    class="base-text-input"
+    placeholder="Correo Electrónico"
+    type="email"
+    name="email"
+  />
+  <textarea
+    required
+    class="base-text-input"
+    name="observation"
+    placeholder="Dejanos tus comentarios"
+  ></textarea>
+  <input type="submit" value="Enviar" class="base-button" />
+</form>
+{% endblock %}

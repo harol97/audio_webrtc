@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MyCoach - Smart Trainer everywhere</title>
+    <link rel="stylesheet" href="/static/css/base.css?v=1.0.0" />
+    {% block custom_style %}{% endblock %}
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    <header class="body__header">
+      <div class="body__header__container-logo">
+        <img src="/static/img/logo_inixs.png" alt="INIXS Logo" class="body__header__container-logo__logo" />
+      </div>
+      <nav class="body__header__nav">
+        <ul>
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/tester">Start Now</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    {% block custom_body %}{% endblock %} {% block custom_static %}{% endblock
+    %}
+  </body>
+</html>

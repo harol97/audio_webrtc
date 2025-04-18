@@ -1,0 +1,129 @@
+{% extends "base.html" %} {% block custom_style %}
+<link rel="stylesheet" href="/static/css/tester.css?v=1.0.0" />
+{% endblock %} {% block body_class %} background-inx custom-body {% endblock %}
+{% block custom_body %}
+<div class="main" id="main">
+  <div class="main__options-container" id="options-container">
+    <div class="main__options-container__option">
+      <div>
+        <input
+          type="radio"
+          name="type-practice"
+          id="option-speaking"
+          value="speaking"
+          checked
+        />
+        <label for="option-speaking">Speaking</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          name="type-practice"
+          id="option-listening"
+          value="listening"
+        />
+        <label for="option-listening">Listening</label>
+      </div>
+      <div>
+        <input
+          type="radio"
+          name="type-practice"
+          id="option-reading"
+          value="reading"
+        />
+        <label for="option-reading">Reading</label>
+      </div>
+    </div>
+    <hr class="separator" />
+    <div>
+      <input type="checkbox" id="option-use-filter" />
+      <label for="option-listening">Use filter</label>
+    </div>
+    <hr class="separator" />
+    <div
+      class="main__options-container__option main__options-container__option__container-select"
+    >
+      <label>Choose a Microphone:</label>
+      <div class="main__options-container__option__container-select">
+        <select
+          class="main__options-container__option__container-select__select"
+          id="microphone-selector"
+        >
+          <option value="none">Choose Below</option>
+        </select>
+        <div style="position: relative">
+          <img
+            id="sound-gif"
+            src="/static/img/tester/sound.gif"
+            width="50"
+            height="50"
+          />
+          <img
+            style="position: absolute; left: 0; right: 0; top: 0; bottom: 0"
+            id="no-sound-gif"
+            src="/static/img/tester/last_sound.gif"
+            width="50"
+            height="50"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="separator" />
+  <div><a href="/opinion">We would like to know your opinion</a></div>
+  <div class="main__process-container" id="process-container"></div>
+  <div class="main__actions-container" id="actions-container">
+    <button
+      disabled
+      id="start-button"
+      class="main__actions-container__button base-button"
+    >
+      Start
+    </button>
+    <button
+      disabled
+      id="stop-button"
+      class="main__actions-container__button base-button"
+    >
+      Stop
+    </button>
+    <button
+      disabled
+      id="continue-button"
+      class="main__actions-container__button base-button"
+    >
+      Continue
+    </button>
+    <button
+      disabled
+      id="repeat-button"
+      class="main__actions-container__button base-button"
+    >
+      Repeat
+    </button>
+    <a
+      class="survey"
+      href="/opinion"
+    >
+      Pls Go to Survey
+  </a>
+  </div>
+</div>
+{% endblock %} {% block custom_static %}
+<script
+  src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+  integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+  crossorigin="anonymous"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/uuid@8.3.2/dist/umd/uuid.min.js"></script>
+<script src="/static/js/tester/multimedia.js?v=1.0.0"></script>
+<script src="/static/js/tester/microphone.js?v=1.0.0"></script>
+<script src="/static/js/tester/method-option.js?v=1.0.0"></script>
+<script src="/static/js/tester/selector.js?v=1.0.0"></script>
+<script src="/static/js/tester/web-rtc.js?v=1.0.0"></script>
+<script src="/static/js/tester/sentences-loader.js?v=1.0.0"></script>
+<script src="/static/js/tester/voice-generator.js?v=1.0.0"></script>
+<script src="/static/js/tester/process-actions.js?v=1.0.0"></script>
+<script src="/static/js/tester/speaker.js?v=1.0.0"></script>
+<script src="/static/js/tester/index.js?v=1.0.0"></script>
+{% endblock %}

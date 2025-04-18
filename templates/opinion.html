@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block custom_style %}
+<link rel="stylesheet" href="/static/css/opinion.css?v=1.0.0" />
+
+{% endblock %}  {% block custom_body %}
+<form class="form" method="post" action="/opinion">
+  <h2>🔧 General Usability</h2>
+    <p>How easy was it to use the platform?</p>
+    <input type="radio" name="usability" required value="Very easy"> Very easy<br>
+    <input type="radio" name="usability" value="Easy"> Easy<br>
+    <input type="radio" name="usability" value="Average"> Average<br>
+    <input type="radio" name="usability" value="Difficult"> Difficult<br>
+    <input type="radio" name="usability" value="Very difficult"> Very difficult<br>
+
+    <p>Did you experience any technical issues while using it?</p>
+    <input type="radio" name="technical_issues" required value="Yes"> Yes<br>
+    <input type="radio" name="technical_issues" value="No"> No<br>
+
+    <p>Which device did you use to access the platform?</p>
+    <input type="radio" name="device" required value="Computer"> Computer<br>
+    <input type="radio" name="device" value="Phone"> Phone<br>
+    <input type="radio" name="device" value="Tablet"> Tablet<br>
+    <input type="radio" name="device" value="Other"> Other (please specify): <input type="text" name="device_other"><br>
+
+    <h2>🗣️ Speaking</h2>
+    <p>How useful did you find the sentences you had to read to practice your pronunciation?</p>
+    <input type="radio" name="sentence_usefulness" required value="Very useful"> Very useful<br>
+    <input type="radio" name="sentence_usefulness" value="Useful"> Useful<br>
+    <input type="radio" name="sentence_usefulness" value="Not very useful"> Not very useful<br>
+    <input type="radio" name="sentence_usefulness" value="Not useful at all"> Not useful at all<br>
+
+    <p>Was the AI's evaluation of your pronunciation accurate?</p>
+    <input type="radio" name="ai_accuracy" required value="Very accurate"> Very accurate<br>
+    <input type="radio" name="ai_accuracy" value="Acceptable"> Acceptable<br>
+    <input type="radio" name="ai_accuracy" value="Not very accurate"> Not very accurate<br>
+    <input type="radio" name="ai_accuracy" value="Not accurate at all"> Not accurate at all<br>
+
+    <p>Do you feel you received useful feedback to improve your pronunciation?</p>
+    <input type="radio" name="feedback" required value="Yes"> Yes<br>
+    <input type="radio" name="feedback" value="No"> No<br>
+    <input type="radio" name="feedback" value="Partially"> Partially<br>
+
+    <h2>👂 Listening</h2>
+    <p>How clear was the AI's voice when pronouncing the sentences you had to repeat?</p>
+    <input type="radio" name="voice_clarity" required value="Very clear"> Very clear<br>
+    <input type="radio" name="voice_clarity" value="Clear"> Clear<br>
+    <input type="radio" name="voice_clarity" value="Not very clear"> Not very clear<br>
+    <input type="radio" name="voice_clarity" value="Confusing"> Confusing<br>
+
+    <p>Did the system recognize your repetition of the sentence correctly?</p>
+    <input type="radio" name="recognition" required value="Always"> Always<br>
+    <input type="radio" name="recognition" value="Almost always"> Almost always<br>
+    <input type="radio" name="recognition" value="Sometimes"> Sometimes<br>
+    <input type="radio" name="recognition" value="Rarely"> Rarely<br>
+    <input type="radio" name="recognition" value="Never"> Never<br>
+
+    <p>Did you feel motivated to keep practicing with this activity?</p>
+    <input type="radio" name="motivation" required value="Yes"> Yes<br>
+    <input type="radio" name="motivation" value="No"> No<br>
+    <input type="radio" name="motivation" value="Partially"> Partially<br>
+
+    <h2>📖 Reading Comprehension</h2>
+    <p>How useful did you find the exercise of paraphrasing a paragraph that disappears after 30 seconds?</p>
+    <input type="radio" name="paraphrase_usefulness" required value="Very useful"> Very useful<br>
+    <input type="radio" name="paraphrase_usefulness" value="Useful"> Useful<br>
+    <input type="radio" name="paraphrase_usefulness" value="Not very useful"> Not very useful<br>
+    <input type="radio" name="paraphrase_usefulness" value="Not useful at all"> Not useful at all<br>
+
+    <p>Do you think the time given to view the text was sufficient?</p>
+    <input type="radio" name="exposure_time" required value="Yes"> Yes<br>
+    <input type="radio" name="exposure_time" value="No"> No<br>
+    <input type="radio" name="exposure_time" value="Could be improved"> Could be improved (please specify): <input type="text" name="exposure_time_improvement"><br>
+
+    <p>Did the AI understand your attempts at paraphrasing well?</p>
+    <input type="radio" name="ai_comprehension" required value="Always"> Always<br>
+    <input type="radio" name="ai_comprehension" value="Almost always"> Almost always<br>
+    <input type="radio" name="ai_comprehension" value="Sometimes"> Sometimes<br>
+    <input type="radio" name="ai_comprehension" value="Rarely"> Rarely<br>
+    <input type="radio" name="ai_comprehension" value="Never"> Never<br>
+
+    <h2>💡 General Suggestions</h2>
+    <p>What aspect of the platform did you like the most?</p>
+    <textarea name="liked_aspect" rows="4"  required cols="50"></textarea><br>
+
+    <p>What aspect do you think should be improved?</p>
+    <textarea name="aspect_to_improve" required rows="4" cols="50"></textarea><br>
+
+    <p>Would you recommend this platform to others learning English?</p>
+    <input type="radio" name="recommend" required value="Yes"> Yes<br>
+    <input type="radio" name="recommend" value="No"> No<br>
+    <input type="radio" name="recommend" value="Not sure"> Not sure<br>
+
+    <p>Is there any functionality you would like to see in future versions?</p>
+    <textarea name="future_functionality" required rows="4" cols="50"></textarea><br>
+
+    <input class="base-button" type="submit" value="Submit">
+</form>
+{% endblock %}
