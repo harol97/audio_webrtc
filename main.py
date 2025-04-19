@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from socketio import ASGIApp
 
 from src.controllers import (
+    analyze_audio,
     analyze_paragraph,
     audio,
     delete_song,
@@ -32,6 +33,12 @@ app.add_api_route("/sentences/audios", delete_song, methods=["DELETE"])
 app.add_api_route("/offer", offer, methods=["POST"])
 app.add_api_route(
     "/analyzers", analyze_paragraph, methods=["POST"], response_model=list[ResultItem]
+)
+app.add_api_route(
+    "/analyzers/files",
+    analyze_audio,
+    methods=["POST"],
+    response_model=list[ResultItem],
 )
 app.add_api_route(
     "/contact", post_contact, methods=["POST"], response_class=RedirectResponse

@@ -28,6 +28,8 @@ window.onload = async () => {
   let currentSentenceIndex = 0;
   let sentences = [];
   let action = null;
+  let recorder = null;
+  let microphoneSelected = null;
 
   let testId = null;
   microphoneSelector.asHTML.onchange = async () => {
@@ -81,6 +83,8 @@ window.onload = async () => {
     continueButton.disabled = true;
     repeatButton.disabled = true;
     processContainer.textContent = "";
+    microphoneSelected = null;
+    recorder = null;
   };
 
   restart();
@@ -103,13 +107,12 @@ window.onload = async () => {
     if (!action) return;
     processContainer.style = "align-items:center;justify-content:center";
     processContainer.appendChild(loadGif);
+    microphoneSelected = microphoneSelector.microphoneSelected;
     const data = await startWebRTC(
-      microphoneSelector,
+      microphoneSelected,
       useFilterChecker.checked,
       id,
-      async () => {
-        await actionHelper();
-      }
+      async () => await actionHelper()
     );
     peerConnection = data.peerConnection;
     track = data.audioTrack;
@@ -138,42 +141,48 @@ window.onload = async () => {
     restart();
   };
 
-  socket.on("sentence", (sentence) => {
+  socket.on("silence", () => {
+    // now It's works only to detect silence
     if (!track) return;
     if (!track.enabled) return;
+    if (!recorder) return;
     pause();
-    const node = document.createElement("p");
-    node.textContent = "processing...";
-    node.style = "color:red;";
-    processContainer.appendChild(node);
-    fetch("/analyzers", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        expected: sentences[currentSentenceIndex],
-        actual: sentence,
-        method: methodPractice.value,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        data.forEach((item) => {
-          const p = document.createElement("p");
-          p.textContent = item.text;
-          p.style.color = item.color;
-          processContainer.appendChild(p);
-        });
-      })
-      .catch(() => {})
-      .finally(() => {
-        continueButton.disabled = false;
-        repeatButton.disabled = false;
+    console.log("silence");
+    setTimeout(() => {
+      recorder.stopRecord(async (blob) => {
+        const node = document.createElement("p");
+        node.textContent = "processing...";
+        node.style = "color:red;";
+        processContainer.appendChild(node);
+        const form = new FormData();
+        form.set("expected", sentences[currentSentenceIndex]);
+        form.set("method", methodPractice.value);
+        form.set("audio", blob);
+        fetch("/analyzers/files", {
+          method: "POST",
+          body: form,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            data.forEach((item) => {
+              const p = document.createElement("p");
+              p.textContent = item.text;
+              p.style.color = item.color;
+              processContainer.appendChild(p);
+            });
+          })
+          .catch((e) => console.error(e))
+          .finally(() => {
+            continueButton.disabled = false;
+            repeatButton.disabled = false;
+          });
       });
+    }, 2000);
   });
 
   const actionHelper = async () => {
+    if (!microphoneSelected) return;
     processContainer.style = "alig-items:start;";
     await action(sentences, currentSentenceIndex, processContainer, unpause);
   };
@@ -186,7 +195,10 @@ window.onload = async () => {
       },
       body: JSON.stringify(id),
     });
-    track.enabled = true;
+    recorder = new Recorder({ microphone: microphoneSelected });
+    recorder.startRecord(() => {
+      track.enabled = true;
+    });
   };
 
   const pause = () => {
