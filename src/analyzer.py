@@ -114,11 +114,11 @@ class Analyzer:
                     )
                 )  # "WARNING"
             elif exp_ph == "-" or act_ph == "-":
-                similarity_score += 0.3  # Penalización menor por palabras omitidas
+                similarity_score += 0.0  # Penalización menor por palabras omitidas
                 # Pasamos los parámetros con keyword arguments
                 result_items.append(
                     ResultItem(
-                        text=f"\n{exp_ph} / {act_ph} (30%)", color=colors["similar"]
+                        text=f"\n{exp_ph} / {act_ph} (0%)", color=colors["similar"]
                     )
                 )  # "SIMILAR"
             else:
