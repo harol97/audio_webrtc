@@ -1,4 +1,4 @@
-import json
+from logging import error
 
 from aiortc import (
     MediaStreamTrack,
@@ -47,19 +47,17 @@ class AudioTransformTrack(AudioStreamTrack):
         if not isinstance(data, AudioFrame):
             raise Exception("Is not AudioFrame")
         data = self.resampler.resample(data)[0]
-
         try:
             sample = data.to_ndarray()
             if self.custom_filter:
                 sample = self.custom_filter.apply_filter(sample)
             if not self.ispause and self.recognizer.AcceptWaveform(sample.tobytes()):
                 self.pause()
-                sentence = json.loads(self.recognizer.Result())["text"]
-                self.peerConnection.emit("message", sentence)
+                self.peerConnection.emit("on_silence")
                 self.recognizer.Reset()
 
-        except Exception:
-            ...
+        except Exception as e:
+            error(e)
         return data
 
     def pause(self):
@@ -70,12 +68,17 @@ class AudioTransformTrack(AudioStreamTrack):
 
 
 async def create_session(
-    sdp: str, session_type: str, samplerate: int, use_filter: bool, user_id: str
+    sdp: str,
+    session_type: str,
+    samplerate: int,
+    use_filter: bool,
+    user_id: str,
+    model_name: str,
 ):
     relay = MediaRelay()
     offer = RTCSessionDescription(sdp=sdp, type=session_type)
     pc = RTCPeerConnection()
-    recognizer = KaldiRecognizer(Model("vosk-model-small-en-us-0.15"), samplerate)
+    recognizer = KaldiRecognizer(Model(model_name), samplerate)
     custom_filter = CustomFilter(samplerate) if use_filter else None
 
     def ontrack(track):
@@ -89,8 +92,8 @@ async def create_session(
         transformers[user_id] = audio_media
         pc.addTrack(audio_media)
 
-    async def on_message(sentence: str):
-        await sio.emit("sentence", sentence, to=user_id)
+    async def on_silence():
+        await sio.emit("silence", "", to=user_id)
 
     async def on_state():
         if pc.connectionState == "closed":
@@ -98,7 +101,7 @@ async def create_session(
             del transformers[user_id]
 
     pc.on("track", ontrack)
-    pc.on("message", on_message)
+    pc.on("on_silence", on_silence)
     pc.on("connectionstatechange", on_state)
 
     await pc.setRemoteDescription(offer)

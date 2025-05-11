@@ -1,11 +1,15 @@
-import os
+import json
+import subprocess
+import wave
+from os import remove, system
 from typing import Annotated
 from uuid import uuid4
 
-from fastapi import BackgroundTasks, Body, Depends, Form, status
+from fastapi import BackgroundTasks, Body, Depends, Form, UploadFile, status
 from fastapi.responses import RedirectResponse
 from openai import OpenAI
 from pydantic_extra_types.color import Color
+from vosk import KaldiRecognizer, Model
 
 from src.analyzer import Analyzer
 from src.information import Sender
@@ -39,20 +43,61 @@ async def sentences(method: MethodType):
 
 async def audio(sentence: Annotated[str, Body()]):
     name_song = "static/" + str(uuid4()) + ".mp3"
-    os.system(f'edge-tts --text "{sentence}" --write-media {name_song}')
+    system(f'edge-tts --text "{sentence}" --write-media {name_song}')
     return "/" + name_song
 
 
 async def delete_song(filename: Annotated[str, Body()]):
-    os.remove("static/" + filename)
+    remove("static/" + filename)
     return {}
 
 
-async def offer(body: OfferBody):
+async def offer(body: OfferBody, settings: SettingDepends):
     session = await create_session(
-        body.sdp, body.session_type, body.samplerate, body.use_filter, body.user_id
+        body.sdp,
+        body.session_type,
+        body.samplerate,
+        body.use_filter,
+        body.user_id,
+        settings.model_name,
     )
     return OfferResponse(sdp=session.sdp, session_type=session.type)
+
+
+async def analyze_audio(
+    expected: Annotated[str, Form()],
+    method: Annotated[MethodType, Form()],
+    audio: Annotated[UploadFile, Form()],
+    settings: SettingDepends,
+):
+    name = str(uuid4()) + ".webm"
+    output = str(uuid4()) + ".wav"
+    with open(name, "wb") as f:
+        f.write(await audio.read())
+
+    subprocess.run(["ffmpeg", "-y", "-i", name, output], check=True)
+
+    results = []
+
+    with wave.open(output, "rb") as wave_file:
+        recognizer = KaldiRecognizer(
+            Model(settings.model_name), wave_file.getframerate()
+        )
+        while True:
+            data = wave_file.readframes(1024)
+            if recognizer.AcceptWaveform(data):
+                actual = json.loads(recognizer.FinalResult())["text"]
+                recognizer.Reset()
+                print(actual)
+                results = await analyze_paragraph(
+                    AnalyzeBody(expected=expected, actual=actual, method=method),
+                    settings,
+                )
+                break
+    remove(name)
+    remove(output)
+
+    return results
 
 
 async def analyze_paragraph(body: AnalyzeBody, setting: SettingDepends):

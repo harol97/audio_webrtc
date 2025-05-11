@@ -2,7 +2,6 @@ class Microphone {
   constructor(props) {
     this.deviceId = props.deviceId;
     this.name = props.label;
-    this.stream = props.stream;
     this.samplerate = props.getCapabilities().sampleRate.max;
     this.audio = null;
   }

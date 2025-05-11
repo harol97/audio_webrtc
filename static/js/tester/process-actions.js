@@ -74,9 +74,7 @@ const actions = {
   },
 };
 
-async function startWebRTC(microphoneSelector, useFilter, userId, action) {
-  const microphoneSelected = microphoneSelector.microphoneSelected;
-  if (!microphoneSelected) return;
+async function startWebRTC(microphoneSelected, useFilter, userId, action) {
   const peerConnection = new PeerConnectionBuilder().build();
   peerConnection.addEventListener("connectionstatechange", () => {
     if (peerConnection.connectionState === "connected") {

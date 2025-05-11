@@ -9,6 +9,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Setting(BaseSettings):
     model_config = SettingsConfigDict(enable_decoding=False)
     openai_key: str
+    model_name: str
     origins: list[str] = []
     smtp_server: str = "smtp.gmail.com"
     smtp_port: int = 587
