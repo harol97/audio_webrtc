@@ -19,13 +19,15 @@ class Multimedia {
       .then((devices) =>
         devices
           .filter((device) => device.kind === "audioinput")
-          .map((device) => new Microphone(device))
+          .map((device) => new Microphone(device)),
       )
       .catch(() => []);
   }
 
   static async getAudioStream(deviceId) {
-    return navigator.mediaDevices.getUserMedia({ audio: { deviceId } });
+    return navigator.mediaDevices.getUserMedia({
+      audio: { deviceId, noiseSuppression: true },
+    });
   }
 
   async getSpeakerList() {
@@ -34,7 +36,7 @@ class Multimedia {
       .then((devices) =>
         devices
           .filter((device) => device.kind === "audiooutput")
-          .map((device) => new Speaker(device))
+          .map((device) => new Speaker(device)),
       )
       .catch(() => []);
   }
