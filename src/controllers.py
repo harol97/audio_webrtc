@@ -23,7 +23,7 @@ from .dtos import (
     OpinionForm,
     ResultItem,
 )
-from .files import MethodType, files
+from .files import MethodType
 from .transformers import transformers
 from .web_rtc import create_session
 
@@ -36,8 +36,15 @@ async def unpause(user_id: Annotated[str, Body()]):
     return ""
 
 
-async def sentences(method: MethodType):
-    with open(files[method], "r") as f:
+async def sentences(method: MethodType, setting: SettingDepends):
+    if method == "listening":
+        filename = setting.listening_filename
+    elif method == "speaking":
+        filename = setting.speaking_filename
+    elif method == "reading":
+        filename = setting.reading_filename
+
+    with open(filename, "r") as f:
         return f.readlines()
 
 
